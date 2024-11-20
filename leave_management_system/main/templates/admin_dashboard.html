@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General styling */
+        body {
+            background-color: #1380ee;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #f6f61b;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        h2, h3 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        /* Position the logout button in the top-right corner */
+        .logout-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+
+        .table {
+            margin-top: 30px;
+        }
+
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+        }
+
+        .table tbody td {
+            text-align: center;
+        }
+
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:hover {
+            background-color: #05ddf5;
+        }
+
+        .btn-sm {
+            margin: 5px;
+        }
+
+        /* Styling for message when no leave requests */
+        .text-center {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2, h3 {
+                font-size: 1.5rem;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+
+            .logout-btn {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 10px;
+            }
+
+            h2, h3 {
+                font-size: 1.2rem;
+            }
+
+            .table {
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                top: 5px;
+                right: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logout Button -->
+    <a href="{% url 'home' %}" class="btn btn-danger logout-btn">Logout</a>
+
+    <div class="container mt-5">
+        <h2>Admin Dashboard</h2>
+        <h3>All Leave Requests</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Employee</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Leave Type</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Action</th> <!-- Action column for buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leave_requests %}
+                    <tr>
+                        <td>{{ leave.employee_id }}</td>
+                        <td>{{ leave.employee.username }}</td>
+                        <td>{{ leave.start_date }}</td>
+                        <td>{{ leave.end_date }}</td>
+                        <td>{{ leave.leave_type }}</td>
+                        <td>{{ leave.reason }}</td>
+                        <td>{{ leave.status }}</td>
+                        <td>
+                            {% if leave.status == "Pending" %}
+                                <!-- Approve Button -->
+                                <form method="post" action="{% url 'approve_leave' leave.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+                                <!-- Cancel Button -->
+                                <form method="post" action="{% url 'cancel_leave' leave.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">No leave requests found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

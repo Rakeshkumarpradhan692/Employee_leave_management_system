@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Centering the content and setting background */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #3ec3de;
+        }
+
+        /* Styling the sign-up box */
+        .signup-box {
+            background-color: #e0be24;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Heading styling */
+        h2 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        /* Form group styling */
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .form-group input {
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .btn {
+            background-color: #28a745;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            padding: 10px;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+
+        /* Link styling for the login redirection */
+        .text-center a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .text-center a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message styling */
+        ul {
+            padding: 0;
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        ul li {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        li.success {
+            background-color: #28a745;
+        }
+
+        li.error {
+            background-color: #dc3545;
+        }
+
+        li.info {
+            background-color: #17a2b8;
+        }
+
+        li.warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signup-box {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .form-group input {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Employee Sign-Up Form -->
+    <div class="signup-box">
+        <h2>Employee Sign Up</h2>
+
+        <!-- Messages -->
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <!-- {{ form.as_p }} -->
+
+            <!-- Explicitly added input fields -->
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" name="email" id="id_email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="id_confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="id_confirm_password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">Sign Up</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'employee_login' %}">Already have an account? Login here</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function(event) {
+                const password = form.querySelector("input[name='password']").value;
+                const confirmPassword = form.querySelector("input[name='confirm_password']").value;
+
+                if (password !== confirmPassword) {
+                    event.preventDefault();
+                    alert("Passwords do not match. Please try again.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

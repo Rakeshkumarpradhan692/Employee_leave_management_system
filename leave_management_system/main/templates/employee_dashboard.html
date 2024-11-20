@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #4a90e2;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #0b0a0a !important;
+        }
+
+        .nav-link:hover {
+            color: #d1eaff !important;
+        }
+
+        .sidebar {
+            background-color: #35c8e6;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #main-head {
+            color: #0b0b0a;
+        }
+
+        .main-content {
+            padding: 10px;
+            background-color:#35c8e6;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .dropdown-section {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+        #first{
+            background-color: chartreuse;
+            border-radius: 2rem;
+        }
+        #second{
+            background-color: chartreuse;
+            border-radius: 2rem;
+        }
+        #third{
+            background-color: chartreuse;
+            border-radius: 2rem;
+        }
+        #dropdown{
+            background-color: chartreuse;
+            border-radius: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><b>HSCLR</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h3 id="main-head">Welcome, {{ username }}!</h3>
+                <div class="list-group" >
+                    <a href="{% url 'apply_for_leave' %}" class="list-group-item list-group-item-action" id="first">Apply for Leave</a>
+                    <br>
+                    <a href="{% url 'holidays_taken' %}" class="list-group-item list-group-item-action" id="second">View All Leaves</a>
+                    <br>
+                    <a href="{% url 'home' %}" class="list-group-item list-group-item-action" id="third">Home</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 main-content">
+                <h4>Select a Section:</h4>
+                <select id="dropdown" class="form-control mb-4">
+                    <option value="profile">Your Profile</option>
+                    <option value="notifications">Notifications</option>
+                    <option value="quick-actions">Quick Links</option>
+                </select>
+
+                <!-- Profile Section -->
+                <div id="profile" class="dropdown-section">
+                    <h4>Your Profile</h4>
+                    <p><strong>Name: {{ username }}</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                    <p><strong>Department:</strong> {{ department }}</p>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications" class="dropdown-section">
+                    <h4>Notifications</h4>
+                    <ul>
+                        {% for notification in notifications %}
+                            <li>{{ notification }}</li>
+                        {% empty %}
+                            <li>No new notifications.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Quick Actions Section -->
+                <div id="quick-actions" class="dropdown-section">
+                    <h4>Quick Links</h4>
+                    <a href="{% url 'apply_for_leave' %}" class="btn btn-primary">Apply for Leave</a>
+                    <a href="{% url 'holidays_taken' %}" class="btn btn-secondary">View Applied Leaves</a>
+                    <a href="{% url 'home' %}" class="btn btn-light">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdown = document.getElementById("dropdown");
+            const sections = document.querySelectorAll(".dropdown-section");
+
+            dropdown.addEventListener("change", function () {
+                const selectedValue = dropdown.value;
+
+                sections.forEach(section => {
+                    section.classList.remove("active");
+                    if (section.id === selectedValue) {
+                        section.classList.add("active");
+                    }
+                });
+            });
+
+            // Initialize with the first option selected
+            dropdown.dispatchEvent(new Event("change"));
+        });
+    </script>
+</body>
+</html>

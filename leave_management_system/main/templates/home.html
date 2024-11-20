@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <style>
+         /* Navbar customization */
+    .navbar {
+        box-shadow: 0 4px 6px rgba(33, 14, 175, 0.1);
+        background-color: #0e0e0f;
+    }
+
+    /* Navbar Brand */
+    .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .navbar-brand:hover {
+        color: #d1ecf1;
+        text-decoration: none;
+    }
+
+    /* Navbar Links */
+    .navbar .nav-link {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .navbar .nav-link:hover {
+        background-color: #08f4f4; /* Highlighted background color */
+        color: #0e0e0f; /* Highlighted text color */
+        box-shadow: 0 4px 10px rgba(8, 244, 244, 0.4); /* Glowing effect */
+    }
+
+    .navbar-toggler {
+        background-color: #ffffff; /* Toggler button background */
+        border: none;
+        outline: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .navbar-toggler:hover {
+        background-color: #08f4f4;
+    }
+
+        /* Main content customization */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'images/leavepage.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: #161716;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Button styling */
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            transition: transform 0.3s, background-color 0.4s, box-shadow 0.3s;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #08f4f4;
+            color: #0e0e0f;
+            border: none;
+            box-shadow: 0 4px 10px rgba(10, 249, 237, 0.5);
+        }
+
+        .btn-primary:hover {
+            background-color: #08f4f4;
+            color: #f90606;
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(8, 244, 244, 0.7);
+        }
+
+        .btn-success {
+            background-color: #08f4f4;
+            color: #0e0e0f;
+            border: none;
+            box-shadow: 0 4px 10px rgba(8, 244, 244, 0.5);
+        }
+
+        .btn-success:hover {
+            background-color: #08f4f4;
+            color: #f90606;
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(5, 212, 212, 0.7);
+        }
+
+        .btn-admin {
+            background-color: #ff6b6b;
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-admin:hover {
+            background-color: #ff3b3b;
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(255, 59, 59, 0.7);
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+            }
+    
+            .navbar .nav-link {
+                display: block;
+                margin: 5px 0;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">HSCLR</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_login' %}">Admin_Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'employee_login' %}">Employee_Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'employee_signup' %}">Employee_SignUp</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container text-center mt-5">
+        <h1>Welcome to the Leave Management System</h1>
+        <div class="mt-4">
+            <a href="{% url 'employee_login' %}" class="btn btn-primary mr-3">Employee_Login</a>
+            <a href="{% url 'employee_signup' %}" class="btn btn-success mr-3">Employee_SignUp</a>
+        
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Navbar toggler
+            const toggler = document.querySelector(".navbar-toggler");
+            const navbarCollapse = document.querySelector("#navbarNav");
+
+            toggler.addEventListener("click", function() {
+                const isExpanded = navbarCollapse.classList.contains("show");
+                if (isExpanded) {
+                    navbarCollapse.classList.remove("show");
+                } else {
+                    navbarCollapse.classList.add("show");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

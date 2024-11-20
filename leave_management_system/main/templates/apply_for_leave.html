@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Leave</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #228bf4;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #52d8e7;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            
+        }
+
+        h2 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+
+        /* Responsive Design */
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Apply for Leave</h2>
+
+        {% if on_leave %}
+            <div class="alert alert-warning" role="alert">
+                You are currently on leave.
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="employee_id" >Employee ID:</label>
+                <input 
+                    type="text"
+                    id="employee_id"
+                    name="employee_id"
+                    class="form-control"
+                    value="{{ employee_id }}"  
+                    readonly
+                />
+            </div>
+        
+            <div class="form-group">
+                <label for="start_date" >Start Date:</label>
+                <input 
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    class="form-control"
+                    required
+                />
+            </div>
+        
+            <div class="form-group">
+                <label for="end_date" >End Date:</label>
+                <input 
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    class="form-control"
+                    required
+                />
+            </div>
+        
+            <div class="form-group">
+                <label for="leave_type" >Leave Type:</label>
+                <select id="leave_type" name="leave_type" class="form-control" required>
+                    <option value="Sick">Sick</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Earned">Earned</option>
+                    <option value="Maternity">Maternity</option>
+                    <option value="Paternity">Paternity</option>
+                    <option value="Vacation">Vacation</option>
+                </select>
+            </div>
+        
+            <div class="form-group">
+                <label for="reason" >Reason:</label>
+                <textarea 
+                    id="reason"
+                    name="reason"
+                    class="form-control"
+                    rows="3"
+                    required
+                ></textarea>
+            </div>
+        
+            <button type="submit" class="btn btn-primary w-100">Apply for Leave</button>
+        </form>
+    </div>
+</body>
+</html>

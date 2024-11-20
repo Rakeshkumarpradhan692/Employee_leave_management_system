@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaves Taken</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #0bd9f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #18f08b;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+
+        .table {
+            margin-top: 20px;
+            
+        }
+
+        .table thead th {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .table tbody td {
+            text-align: center;
+        }
+
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #1778d9;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+
+        p {
+            text-align: right;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding: 10px;
+            }
+
+            .table {
+                font-size: 0.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Leaves Taken</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Leave Type</th>
+                    <th>Reason</th>
+                    <th>Status</th> <!-- New column for status -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                    <tr>
+                        <td>{{ leave.start_date }}</td>
+                        <td>{{ leave.end_date }}</td>
+                        <td>{{ leave.leave_type }}</td>
+                        <td>{{ leave.reason }}</td>
+                        <td>{{ leave.status }}</td> <!-- Display the status here -->
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No leave requests found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Total Leaves Apply: {{ leave_count }}</p> <!-- This displays the total number of approved leaves -->
+    </div>
+</body>
+</html>
